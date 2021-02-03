@@ -26,29 +26,30 @@ workflows:
       - orb-tools/lint
       - orb-tools/pack
       # Hold for dev publish
-      - approve-dev-publish:
+      - approve-dev:
           type: approval
           requires:
             - orb-tools/lint
             - orb-tools/pack
       # Publish development version(s) of the orb.
       - orb-tools/publish-dev:
+          name: publish-dev
           orb-name: prod/dmi-cci-orb
           context: "credentials"
-          requires: [approve-dev-publish]
+          requires: [approve-dev]
       # Trigger an integration workflow to test the dev:${CIRCLE_SHA1} version of your orb
       - orb-tools/trigger-integration-tests-workflow:
           name: integration-tests-dev
           context: "credentials"
           requires:
-            - orb-tools/publish-dev
+            - publish-dev
       # Promote production version(s) of the orb.
       - orb-tools/dev-promote-prod-from-commit-subject:
           name: orb-tools/publish-prod
           orb-name: prod/dmi-cci-orb
           context: "credentials"
           requires:
-            - orb-tools/publish-dev
+            - publish-dev
             - integration-tests-dev
           add-pr-comment: false
           fail-if-semver-not-indicated: true
@@ -56,8 +57,4 @@ workflows:
           filters:
             branches:
               only: master
-
-
-
-
 
