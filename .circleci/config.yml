@@ -47,7 +47,7 @@ workflows:
           name: orb-tools/publish-prod
           orb-name: prod/dmi-cci-orb
           context: "credentials"
-          requires: 
+          requires:
             - orb-tools/publish-dev
             - integration-tests-dev
           add-pr-comment: false
