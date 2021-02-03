@@ -35,7 +35,7 @@ workflows:
       - orb-tools/publish-dev:
           orb-name: prod/dmi-cci-orb
           context: "credentials"
-          requires: [approve-dev]
+          requires: [approve-dev-publish]
       # Trigger an integration workflow to test the dev:${CIRCLE_SHA1} version of your orb
       - orb-tools/trigger-integration-tests-workflow:
           name: trigger-integration-dev
