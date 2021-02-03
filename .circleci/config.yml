@@ -44,7 +44,7 @@ workflows:
             - orb-tools/publish-dev
       # Promote production version(s) of the orb.
       - orb-tools/dev-promote-prod-from-commit-subject:
-          name: deploy-prod
+          name: orb-tools/publish-prod
           orb-name: prod/dmi-cci-orb
           context: "credentials"
           requires: [orb-tools/publish-dev]
