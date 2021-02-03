@@ -1,11 +1,8 @@
 version: 2.1
 
 orbs:
-  # Replace this with your own!
   <orb-name>: prod/dmi-cci-orb@<<pipeline.parameters.dev-orb-version>>
   orb-tools: circleci/orb-tools@10.0
-  #bats: circleci/bats@1.0
-  shellcheck: circleci/shellcheck@2.0
 
 # Pipeline Parameters
 ## These parameters are used internally by orb-tools. Skip to the Jobs section.
@@ -50,6 +47,17 @@ workflows:
           context: "credentials"
           requires:
             - orb-tools/publish-dev
+      - orb-tools/dev-promote-prod-from-commit-subject:
+          orb-name: prod/dmi-cci-orb
+          context: "credentials"
+          add-pr-comment: false
+          fail-if-semver-not-indicated: true
+          publish-version-tag: false
+          filters:
+            branches:
+              only: master
+
+
 
 
 
